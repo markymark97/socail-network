@@ -10,7 +10,9 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.18.2",
-    "mongoose": "^7.5.2"
+    "moment": "^2.29.4",
+    "mongoose": "^7.5.3"
   },
-  "description": ""
+  "description": "This applciaiton is used as a server based to get user thoguhts and reactions.",
+  "keywords": []
 }
