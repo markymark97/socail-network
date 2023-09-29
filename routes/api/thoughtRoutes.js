@@ -10,7 +10,7 @@ router.get('/:id', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-    res.json(await thoughtController.createThought(req.body));
+    res.json( thoughtController.createThought(req.body));
 });
 
 router.put('/:id', async (req, res) => {
@@ -41,7 +41,7 @@ router.post('/:thoughtId/reactions', async (req, res) => {
 
 router.delete('/:thoughtId/reactions/:reactionId', async (req, res) => {
     try {
-        const thought = await thoughtController.removeReaction(req.params.thoughtId, req.params.reactionId);
+        const thought =  thoughtController.removeReaction(req.params.thoughtId, req.params.reactionId);
         res.json(thought);
     } catch (error) {
         res.status(500).json({err});
