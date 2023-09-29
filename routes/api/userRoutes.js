@@ -39,3 +39,5 @@ router.delete('/:userId/friends/:friendId', async (req, res) => {
         res.status(500).json({ err});
     }
 });
+
+module.exports = router;
