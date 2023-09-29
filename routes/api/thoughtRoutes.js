@@ -1,24 +1,51 @@
 const router = require('express').Router();
-const {
-  getThoughts,
-  getSingleThought,
-  createThought,
-  updateThought,
-  deleteThought,
-  addReaction,
-  removeReaction,
-} = require('../../controllers/thoughtController');
+const thoughtController = require('../../controllers/thoughtController');
 
-// /api/thoughts
-router.route('/').get(getThoughts).post(createThought);
+router.get('/', async (req, res) => {
+    res.json( thoughtController.getAllThoughts());
+});
 
-// /api/thoughts/:thoughtId
-router.route('/:thoughtId').get(getSingleThought).put(updateThought).delete(deleteThought);
+router.get('/:id', async (req, res) => {
+    res.json( thoughtController.getThoughtById(req.params.id));
+});
 
-// /api/thoughts/:thoughtId/reactions
-router.route('/:thoughtId/reactions').post(addReaction);
+router.post('/', async (req, res) => {
+    res.json(await thoughtController.createThought(req.body));
+});
 
-// /api/thoughts/:thoughtId/reactions/:reactionId
-router.route('/:thoughtId/reactions/:reactionId').delete(removeReaction);
+router.put('/:id', async (req, res) => {
+    try {
+        const updatedThought =  thoughtController.updateThought(req.params.id, req.body);
+        res.json(updatedThought);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: error.message });
+    }
+});
+
+
+router.delete('/:id', async (req, res) => {
+    res.json( thoughtController.deleteThought(req.params.id));
+});
+
+router.post('/:thoughtId/reactions', async (req, res) => {
+    try {
+        const thought =  thoughtController.addReaction(req.params.thoughtId, req.body);
+        res.json(thought);
+    } catch (err) {
+        console.error(err);  
+        res.status(500).json({err});  
+    }
+});
+
+
+router.delete('/:thoughtId/reactions/:reactionId', async (req, res) => {
+    try {
+        const thought = await thoughtController.removeReaction(req.params.thoughtId, req.params.reactionId);
+        res.json(thought);
+    } catch (error) {
+        res.status(500).json({err});
+    }
+});
 
 module.exports = router;
